@@ -1,140 +1,98 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Авто Справочник</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: var(--tg-theme-bg-color, #ffffff);
-            --text-color: var(--tg-theme-text-color, #000000);
-            --card-bg: var(--tg-theme-secondary-bg-color, #f1f1f1);
-            --btn-color: var(--tg-theme-button-color, #2481cc);
-            --btn-text: var(--tg-theme-button-text-color, #ffffff);
-            --border-color: var(--tg-theme-hint-color, #cccccc);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Сайдбар слева */
-        .sidebar {
-            width: 80px;
-            background-color: var(--card-bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 15px;
-            border-right: 1px solid var(--border-color);
-            overflow-y: auto;
-        }
-
-        .brand-logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-        
-        .brand-logo:hover {
-            transform: scale(1.1);
-        }
-
-        /* Основная область */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .header {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            font-size: 16px;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        .search-box:focus {
-            border-color: var(--btn-color);
-        }
-
-        .cards-container {
-            padding: 15px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .card-info {
-            flex: 1;
-            padding-right: 15px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .car-image {
-            width: 120px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            background-color: #ddd;
-        }
-
-        .pros { color: #28a745; font-size: 14px; margin-top: 5px; }
-        .cons { color: #dc3545; font-size: 14px; margin-top: 2px; }
-
-        .btn {
-            background-color: var(--btn-color);
-            color: var(--btn-text);
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            width: 100%;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 12px;
+margin-top: 12px;
             font-weight: 500;
         }
+        
+        .btn:active { opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <!-- Панель с логотипами слева -->
+    <div class="sidebar">
+        <div class="brand-logo" onclick="filterBrand('all')">Все</div>
+        <div class="brand-logo" onclick="filterBrand('Toyota')">Toy</div>
+        <div class="brand-logo" onclick="filterBrand('Kia')">Kia</div>
+    </div>
+
+    <!-- Основная часть с поиском и карточками -->
+    <div class="main-content">
+        <div class="header">
+            <input type="text" id="searchInput" class="search-box" placeholder="Поиск по названию..." onkeyup="searchCars()">
+        </div>
+
+        <div class="cards-container" id="cardsContainer">
+            
+            <!-- Карточка 1 -->
+            <div class="card" data-brand="Toyota" data-title="Toyota Camry XV50">
+                <div class="card-info">
+                    <div class="card-title">Toyota Camry (XV50)</div>
+                    <div><b>Годы:</b> 2011–2018</div>
+                    <div><b>Двигатели:</b> 2.0, 2.5, 3.5</div>
+                    <div class="pros">✔ Надежность, комфорт</div>
+                    <div class="cons">✖ Шумоизоляция</div>
+                    <button class="btn" onclick="buySubscription()">Узнать про болячки (150 ₽)</button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=300&auto=format&fit=crop" class="car-image" alt="Camry">
+            </div>
+
+            <!-- Карточка 2 -->
+            <div class="card" data-brand="Kia" data-title="Kia Rio IV">
+                <div class="card-info">
+                    <div class="card-title">Kia Rio (IV)</div>
+                    <div><b>Годы:</b> 2017–2022</div>
+                    <div><b>Двигатели:</b> 1.4, 1.6</div>
+                    <div class="pros">✔ Дешевый в обслуживании</div>
+                    <div class="cons">✖ Слабая шумоизоляция</div>
+                    <button class="btn" onclick="buySubscription()">Узнать про болячки (150 ₽)</button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=300&auto=format&fit=crop" class="car-image" alt="Rio">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Проверка: если мы в Телеграме - разворачиваем, если в браузере - просто работаем
+        if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            tg.expand();
+        }
+
+        function searchCars() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterBrand(brand) {
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const cardBrand = card.getAttribute('data-brand');
+                if (brand === 'all' || cardBrand === brand) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.getElementById('searchInput').value = '';
+        }
+
+        function buySubscription() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.showAlert("Здесь будет оплата 150 ₽");
+            } else {
+                alert("Здесь будет оплата 150 ₽ (Вы в браузере)");
+            }
+        }
+    </script>
+</body>
+</html>
