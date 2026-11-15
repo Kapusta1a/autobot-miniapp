@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Авто Справочник</title>
+    <!-- Подключаем скрипт Telegram Mini Apps -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: var(--tg-theme-secondary-bg-color, #f1f1f1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .pros { color: #28a745; margin-bottom: 5px; }
+        .cons { color: #dc3545; margin-bottom: 5px; }
+        .btn {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:active {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Авто Справочник</div>
+
+    <div class="card">
+        <div class="card-title">Toyota Camry (XV50)</div>
+        <div><b>Годы:</b> 2011–2018</div>
+        <div><b>Двигатели:</b> 2.0, 2.5, 3.5</div>
+        <div class="pros"><b>Плюсы:</b> Надежность, комфорт</div>
+        <div class="cons"><b>Минусы:</b> Шумоизоляция</div>
+        <button class="btn" onclick="buySubscription()">Узнать про болячки (150 ₽)</button>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Kia Rio (IV)</div>
+        <div><b>Годы:</b> 2017–2022</div>
+        <div><b>Двигатели:</b> 1.4, 1.6</div>
+        <div class="pros"><b>Плюсы:</b> Дешевый в обслуживании</div>
+        <div class="cons"><b>Минусы:</b> Слабая шумоизоляция</div>
+        <button class="btn" onclick="buySubscription()">Узнать про болячки (150 ₽)</button>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на весь экран
+
+        function buySubscription() {
+            // Пока тут просто заглушка. Позже сюда можно вставить логику оплаты.
+            tg.showAlert("Здесь будет оплата 150 ₽ через СБП!");
+            
+            // Отправляем данные боту (если он запущен)
+            tg.sendData(JSON.stringify({ action: "buy_subscription" }));
+        }
+    </script>
+</body>
+</html>
